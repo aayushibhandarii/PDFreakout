@@ -1,2 +1,69 @@
 // Extension : Color Highlight => if theere is any hex code then it highlights the color it is indicating
 //Extension : Tailwind CSS IntelliSense => it auto populates the tailwind code
+
+//store all the commponents that are common for all the pages such as header,footer =>store them inside components>common folder and then make it header or component in it just like we do in react .... we to store these types of file in such a placce that all files can access it i.e. layout.tsx 
+// 1.import Header from "@/components/common/Header";
+// 2.<Header /> apply this before {children} as we want header to be above
+
+// relative flex min-h-screen flex-col => makes the bottom to appear at the bottom of the page
+
+//to make a link : 
+//import Link from "next/link"; =>write it at the where using it
+// type1=><Link href="/sign-in">Sign in</Link>
+//type2 => <Link href="/#pricing">Pricing</Link> -> the #pricing part tells the browser to scroll to an element with the ID pricing on the page eg. <section id="pricing">...</section>
+
+//inline css:
+//className="py-4 lg:px-8 px-2" => py-4 vertical padding of 4px for smaller devices and horizontal padding of 8px for bigger/desktop devices and px-2 for smaller/modile devices
+
+//lucide => it is a package that gives us icons
+//as if your using shadcn ui .... lucide is already installed
+//can see it in lucide website => click on the icon and follow the instruction to use the icon...
+// like : import { File } from 'lucide-react'; import this where you want to use the icon and use it like a react component
+//use it like : <File />
+
+//to rotate a icon little it bit on hover => className="hover:rotate-12 transform duration-200 ease-in-out" give this to icon
+
+
+// export function NavLink({
+//     href ,children,className
+// }:{
+//     href : string,   
+//     children:React.ReactNode, =>whatever written inside <NavLink>..here</NavLink>
+//     className?:string =>it is optional
+// }){
+//     return(
+//         <Link href={href} 
+//         className={cn("transition-colors text-sm duration-200 text-gray-200 hover:text-rose-500",className)} =>cn is a shadcn function that is used combine two or more styles
+//         >
+//             {children}
+//         </Link>
+//     )
+// }
+
+//animate-pulse => gives a pulsing animation llike twinkling of stars
+
+//button handler, form etc. anything that requires browser needs to be client component
+
+//to screate schema : we need to use zod
+
+//uploadthing allows us to manage file uploads
+//we don't directly upload to amazon S3 as it is way too complicated
+//uploadthing act as a layer on top by which wew simply uplaod file using api
+//To use it: 1.go to uploadthing.com > apps>create a new app
+//2. go to docs > Next.js App Router Setup 
+        //i.npm install uploadthing @uploadthing/react
+        //ii. copy apikey key .env.local
+        //iii. copy api/uploadthing/core.ts it into a file name at the root
+
+//as inside app directory whenever we want to create public route then we have to create page.tsx file. Similarly, in order to us to expose an api route we have to create a route.ts file
+
+//Sonner : shadcn component => tells the user what is happening like a notification in a app but stays for only some seconds
+
+//langchain: => we'll use PDFLoader from langChain to load the pdf ans then map all the pages together.... get the page content by combining all the pages and getting the text from it...
+//we'll use that text to generate the summmary
+//To load pdf...
+        // i. go to langchain website(www.langchain.com) > get started with javascript>integration>document loader > File loaders > PDFLoader
+        //ii.npm i @langchain/community @langchain/core pdf-parse
+        //iii. create a new folder actions //any time you wanna expose a function as public http endpoint without having to use an api folder like we did for uploadthing..... you need to create tocreate a new file inside folder actions...and use server directives("use server") on top...this means any function that is exported here in that file are server actions
+
+//go to openai platform login or signup... to get the api key...go to text generation section of the docs
