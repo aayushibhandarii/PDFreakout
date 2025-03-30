@@ -1,4 +1,3 @@
-import Image from "next/image";
 import HeroSection from "@/components/home/HeroSection"
 import BgGradient from "@/components/common/BgGradient";
 import DemoSection from "@/components/home/DemoSection"

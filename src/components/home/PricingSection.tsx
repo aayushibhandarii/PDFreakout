@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { pricingPlans } from "@/utils/constants";
 import { ArrowRight, CheckIcon} from "lucide-react"
 import Link from "next/link";
 type PriceType={
@@ -10,35 +11,7 @@ type PriceType={
     paymentLink:string;
     priceId: string;
 }
-const plans =[
-    {
-        id: "basic",
-        name:"Basic",
-        description : "Perfect for ocassional use",
-        price : 9,
-        items:[
-            "5 PDF summaries per month",
-            "Standard processing speed",
-            "Email support"
-        ],
-        paymentLink: "y",
-        priceId : "y",
-    },
-    {
-        id: "pro",
-        name:"Pro",
-        description : "Perfect for ocassional use",
-        price : 19,
-        items:[
-            "Unlimited PDF summaries",
-            "Priority processing",
-            "24/7 priority support",
-            "Markdown Export"
-        ],
-        paymentLink: "y",
-        priceId : "y",
-    }
-]
+
 const PricingCard = ({name,price,description,items,id,paymentLink}:PriceType)=>{
     return (
         <div className="relative w-full max-w-lg hover:scale-105 hover:transition-all duration-300">
@@ -92,7 +65,7 @@ export default function PricingSection(){
             </div>
             <div className="relative flex justify-center flex-col lg:flex-row items-center lg:items-stretch gap-8">
                 {
-                    plans.map((plan,index)=>(
+                    pricingPlans.map((plan,index)=>(
                         <PricingCard key={index} {...plan} />
                     ))
                 }

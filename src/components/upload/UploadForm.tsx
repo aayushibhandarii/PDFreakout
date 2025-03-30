@@ -3,8 +3,9 @@ import { useUploadThing } from "@/utils/uploadthing";
 import UploadFormInput from "./UploadFormInput";
 import {z} from "zod"
 import { toast } from "sonner";
-import {generatePdfSummary} from "../../../actions/uploadAction";
+import {generatePdfSummary, storePdfSummaryAction} from "../../../actions/uploadAction";
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 const schema = z.object({
     file:z.instanceof(File,{message:"Invalid File"})
     .refine((file)=>file.size<=24*1024*1024, "File size must be less than 24MP")
@@ -14,6 +15,7 @@ const schema = z.object({
 export default function UploadForm(){
     const formRef = useRef<HTMLFormElement>(null);
     const [isLoading,setIsLoading] = useState(false);
+    const router = useRouter();
     const {startUpload,routeConfig} = useUploadThing( //startUpload is the function for start uploading
         "pdfUploader",{ //this pdfUploader name should match what we created inside core.tsx
 
@@ -75,23 +77,40 @@ export default function UploadForm(){
                 description:"Hang tight! Our AI is reading through your document! ✨"
             })
             //once the file has been uploaded => parse the pdf using langchain 
+            //then summarize the pdf using AI
             const result = await generatePdfSummary(resp); 
     
             const {data = null,message=null} = result||null;
-    
+            console.log(data);
             if(data){
+                let storeResult : any;
                 toast.message("📄 Saving PDF...",{
                     description:"Hang tight! we are saving your summary! ✨"
                 })
-                formRef.current?.reset(); // resetting the form
+                
+                if(data.summary){
+                    storeResult = await storePdfSummaryAction({
+                        fileUrl : resp[0].serverData.file.url,
+                        summary : data.summary,
+                        title : data.title,
+                        fileName : file.name,
+                    });
+                    //save the summary to the database
+                    toast.message("✨ Summary Generated!",{
+                        description:"Your PDF has been successfully summarized and saved! ✨",
+                    });
+                    formRef.current?.reset(); // resetting the form
+                    router.push(`summaries/${storeResult.data.id}`);
+                }
+                
             }
-            //then summarize the pdf using AI
-            //save the summary to the database
             //redirect to the [id] summary page
         }catch(err){
             setIsLoading(false);
             console.error("Error occurred",err);
             formRef.current?.reset(); // reset the form(Upload Form) if any of the error occurred
+        }finally{
+            setIsLoading(false);
         }
 
          
