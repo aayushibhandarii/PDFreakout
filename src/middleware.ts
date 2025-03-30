@@ -1,7 +1,17 @@
 //it is sort of middle person between your request and response
-import { clerkMiddleware } from '@clerk/nextjs/server'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-export default clerkMiddleware()
+const isProtectedRoute = createRouteMatcher([
+  "/dashboard(.*)",
+  "/summaries(.*)",
+  "/upload(.*)"
+]); //these routes are protected routes and others are not
+export default clerkMiddleware(async(auth,req)=>{
+  if(isProtectedRoute(req)){
+    await auth().protect(); //if it is a protected route then we're gonna protect it
+
+  }
+})
 
 export const config = {
   matcher: [
