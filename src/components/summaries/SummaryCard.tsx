@@ -4,6 +4,8 @@ import Link from "next/link";
 import { FileText } from "lucide-react";
 import { cn, formatFileName } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
+import { MotionDiv } from "../common/MotionWrapper";
+import { itemsVariants } from "@/utils/constants";
 
 //this is a server component ... so the above packages that we're using would won't be neccessarily included in the browser bundle which is the advantage of using the server component... so this won't be include in the browseer bundle hence making the bundkle really tiny and makes our app really performant
 //we extracted the delete button because it needed client functionality as we need to have onclick handler for it
@@ -40,10 +42,18 @@ const StatusBadge = ({status}:{status:string}) =>{
     )
 }
 export default function SummaryCard({summary}:{summary:any}){
-    console.log(summary)
     return(
-        <div>
-            <Card className="relative h-full ">
+
+        <MotionDiv 
+        variants={itemsVariants}             
+        initial="hidden"
+        animate="visible"
+        whileHover={{
+            scale:1.02,
+            transition:{duration:0.2,ease :"easeOut"}
+        }}
+        >
+            <Card className="relative h-full border-none">
                 <div className=" absolute top-2 right-2">
                     <DeleteButton summaryId={summary.id}/>
                 </div>
@@ -61,6 +71,6 @@ export default function SummaryCard({summary}:{summary:any}){
                 
                 </Link>
             </Card>
-        </div>
+        </MotionDiv>
     )
 }

@@ -1,3 +1,4 @@
+//it is sort of middle person between your request and response
 import { clerkMiddleware } from '@clerk/nextjs/server'
 
 export default clerkMiddleware()

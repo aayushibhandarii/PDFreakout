@@ -12,7 +12,7 @@ export const pricingPlans =[
             "Email support"
         ],
         paymentLink: isDev?"https://buy.stripe.com/test_28o2az29Y0uX2NW145":" ",
-        priceId : process.env.NODE_ENV==="development"?"price_1R84LiSEtyXMV4IyyrLvojSI":" ",
+        priceId : isDev?"price_1R84LiSEtyXMV4IyyrLvojSI":" ",
     },
     {
         id: "pro",
@@ -26,6 +26,31 @@ export const pricingPlans =[
             "Markdown Export"
         ],
         paymentLink: isDev?"https://buy.stripe.com/test_dR6cPd6qe1z1gEMdQQ":" ",
-        priceId : process.env.NODE_ENV==="development"?"price_1R86QMSEtyXMV4IySkaTM2nu":" ",
+        priceId : isDev?"price_1R86QMSEtyXMV4IySkaTM2nu":" ",
     }
-]
+];
+
+export const containerVariants = {
+    hidden:{opacity : 0},
+    visible:{
+        opacity:1,
+        transition :{
+            staggerChildren : 0.2,
+            delayChildren : 0.1 
+        }
+    }
+}
+export const itemsVariants = {
+    hidden:{opacity : 0,y:20},
+    visible:{
+        opacity:1,
+        transition :{
+            type:"spring",
+            damping:15,
+            stiffness:50,
+            duration : 0.8,
+            staggerChildren : 0.2,
+            delayChildren : 0.1 
+        }
+    }
+}

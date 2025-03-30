@@ -130,3 +130,7 @@
         //if you go then do submit etc.... then your website will be available at that url
         //signing secret is the webhook secretkey
 //to get the priceId in paymentsection => go to product catalog>select the pdfreakout > then go to pricing secction ...->there will be 3 dot for each plan > click on it then click on copy the priceId 
+
+//to get the user from clerk => const user = await currentUser();
+
+//motion library(https://motion.dev/) : it is a modern animation library for javascript and react

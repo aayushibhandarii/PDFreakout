@@ -5,6 +5,7 @@ import { NavigationControls } from "./NavigationControls";
 import { ProgressBar } from "./ProgressBar";
 import { parseSection } from "@/utils/summaryHelper";
 import ContentSection from "./ContentSection";
+import { MotionDiv } from "../common/MotionWrapper";
 const SectionTitle = ({title}:{title:string})=>{
     return(
         <div className="flex flex-col gap-2 mb-6 sticky top-0 pt-2 pb-4 bg-background/80 backdrop-blur-xs z-10">
@@ -24,12 +25,19 @@ export function SummaryViewer({summary}:{summary:string}){
     return(
         <Card className="relative px-2 h-[500px] sm:h-[600px] lg:h-[700px] w-full xl:w-[600px] overflow-hidden bg-linear-to-br from-background via-background/95 to-rose-500/5 backdrop-blur-lg shadow-2xl rounded-3xl border border-rose-500/20">
             {<ProgressBar sections={sections} currentSection={currentSection} />}
-            <div className="h-full overflow-y-auto scrollbar-hide pt-12 sm:pt-16 pb-20 sm:pb-24">
+            <MotionDiv 
+            key={currentSection} 
+            initial={{opacity:0}} 
+            whileInView={{opacity:1}}
+            transition={{duration:0.5,ease :"easeInOut"}}
+            exit={{opacity:0}}
+            className="h-full overflow-y-auto scrollbar-hide pt-12 sm:pt-16 pb-20 sm:pb-24"
+            >
                 <div className="px-4 sm:px-6">
                     <SectionTitle title={sections[currentSection]?.title || ""} />
                     <ContentSection title={sections[currentSection]?.title || ""} points={sections[currentSection]?.points || []} />
                 </div>
-            </div>
+            </MotionDiv>
                 
 
                 <NavigationControls currentSection={currentSection} totalSections={sections.length} onNext={handleNext} onPrevious={handlePrev} onSelectionSelect={setCurrentSection}/>{/*//go back and forth between sections */}
