@@ -8,7 +8,7 @@ const isProtectedRoute = createRouteMatcher([
 ]); //these routes are protected routes and others are not
 export default clerkMiddleware(async(auth,req)=>{
   if(isProtectedRoute(req)){
-    await auth().protect(); //if it is a protected route then we're gonna protect it
+    await auth.protect(); //if it is a protected route then we're gonna protect it
 
   }
 })
