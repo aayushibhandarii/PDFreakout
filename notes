@@ -134,3 +134,19 @@
 //to get the user from clerk => const user = await currentUser();
 
 //motion library(https://motion.dev/) : it is a modern animation library for javascript and react
+
+//vercel giveing error : 
+        //if taking more than 5 seconds error(504) => split up the server actions into several smaller parts
+        //but still call for openAI is taking longer => we'll create or extend the duration of server actions ... by default vercel has set it for 10 seconds
+                //this is done by => create new file vercel.json at same level as package.json
+                        //{
+                        //     "function" : {
+                        //         "app/**/*" :{
+                        //             "maxDuration" : 60
+                        //         }
+                        //     }
+                        // }
+                        //according to above code.... everything inside app directory ... all the server actions are going to run for a maxDuration of 60 seconds
+                        //hence it increases the limit of all the server actions inside app
+
+                        //other o[tion to do the same thing by writing export const maxDuration = 60; in page where the server action was called that gives the error

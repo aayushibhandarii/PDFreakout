@@ -8,6 +8,7 @@ import { containerVariants } from "@/utils/constants";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
+export const maxDuration = 60;
 export default async function Page(){
     const user = await currentUser();
 
