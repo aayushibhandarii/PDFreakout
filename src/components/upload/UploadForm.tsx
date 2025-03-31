@@ -3,10 +3,11 @@ import { useUploadThing } from "@/utils/uploadthing";
 import UploadFormInput from "./UploadFormInput";
 import {z} from "zod"
 import { toast } from "sonner";
-import {generatePdfSummary, storePdfSummaryAction} from "../../../actions/uploadAction";
+import {generatePdfSummary, generatePdfText, storePdfSummaryAction} from "../../../actions/uploadAction";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import LoadingSkeleton from "./LoadingSkeleton";
+import { formatFileNameAsTitle } from "@/utils/format";
 const schema = z.object({
     file:z.instanceof(File,{message:"Invalid File"})
     .refine((file)=>file.size<=24*1024*1024, "File size must be less than 24MP")
@@ -45,7 +46,7 @@ export default function UploadForm(){
             
             //validating the fields=>done by using schema with zod
             const validatedFields = schema.safeParse({file}) //=>gives us success property and ccheck if success property is not true then give message
-            console.log(validatedFields)
+
             if(!validatedFields.success){
                     // validatedFields.error.flatten().fieldErrors.file?.[0] ?? "Invalid file" //the error zod has given
                 toast.warning(
@@ -77,33 +78,45 @@ export default function UploadForm(){
             toast.message("📄 Processing PDF...",{
                 description:"Hang tight! Our AI is reading through your document! ✨"
             })
+            const uploadFileUrl = resp[0].serverData.file.url;
+            
+            let storeResult : any;
+            toast.message("📄 Saving PDF...",{
+                description:"Hang tight! we are saving your summary! ✨"
+            })
+                
+                
+            const formattedFileName = formatFileNameAsTitle(file.name);
+            const result = await generatePdfText({
+                fileUrl:uploadFileUrl
+            })
+            toast.message("📄 Generate PDF summary...",{
+                description:"Hang tight! Our AI is reading through your document! ✨"
+            })
+
+            //call ai service to generate summary
             //once the file has been uploaded => parse the pdf using langchain 
-            //then summarize the pdf using AI
-            const result = await generatePdfSummary(resp); 
-    
-            const {data = null,message=null} = result||null;
-            console.log(data);
-            if(data){
-                let storeResult : any;
-                toast.message("📄 Saving PDF...",{
-                    description:"Hang tight! we are saving your summary! ✨"
-                })
-                
-                if(data.summary){
-                    storeResult = await storePdfSummaryAction({
-                        fileUrl : resp[0].serverData.file.url,
-                        summary : data.summary,
-                        title : data.title,
-                        fileName : file.name,
-                    });
-                    //save the summary to the database
-                    toast.message("✨ Summary Generated!",{
-                        description:"Your PDF has been successfully summarized and saved! ✨",
-                    });
-                    formRef.current?.reset(); // resetting the form
-                    router.push(`summaries/${storeResult.data.id}`);
-                }
-                
+            const summaryResult = await generatePdfSummary({
+                fileName : formattedFileName,
+                pdfText : result?.data?.pdfText??""
+            }); 
+            toast.message("📄 Saving the PDF summary...",{
+                description:"Hang tight! Our AI is reading through your document! ✨"
+            })
+            const {data = null,message = null} = summaryResult || {};
+            if(data?.summary){
+                //save the summary to the database
+                storeResult = await storePdfSummaryAction({
+                    fileUrl : uploadFileUrl,
+                    summary : data.summary,
+                    title : formattedFileName,
+                    fileName : file.name,
+                });
+                toast.message("✨ Summary Generated!",{
+                    description:"Your PDF has been successfully summarized and saved! ✨",
+                });
+                formRef.current?.reset(); // resetting the form
+                router.push(`summaries/${storeResult.data.id}`);
             }
             //redirect to the [id] summary page
         }catch(err){

@@ -6,31 +6,12 @@ import { generateSummaryFromOpenAI } from "@/lib/openai";
 import { formatFileNameAsTitle } from "@/utils/format";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
-
-export async function generatePdfSummary(uploadResponse : [{
-    serverData : {
-        userId : string;
-        file :{
-            ufsUrl:string;
-            name:string;
-        }
-    }
-}]){
-    
-    if(!uploadResponse){
-        return{
-            success : false,
-            message : "File upload failed",
-            data :  null 
-        }
-    }
-     const {
-        serverData :{
-            userId,
-            file : {ufsUrl:pdfUrl,name:fileName}
-        }
-     } = uploadResponse[0];
-    if(!pdfUrl){
+export async function generatePdfText({
+    fileUrl
+}:{
+    fileUrl : string
+}){
+    if(!fileUrl){
         return{
             success : false,
             message : "File upload failed",
@@ -38,18 +19,52 @@ export async function generatePdfSummary(uploadResponse : [{
         }
     }
     try{
-        const pdfText = await fetchAndExtractPdfText(pdfUrl);
-        console.log(pdfText,"\n\n")
+        const pdfText = await fetchAndExtractPdfText(fileUrl);
+        console.log(pdfText);
+
+        if(!pdfText){
+            return{
+                success : false,
+                message : "Failed to fetch and extract PDF text",
+                data :  null 
+            }
+        }
+        return {
+            success:true,
+            message : "PDF text generated successfully",
+            data : {
+                pdfText
+            }
+        }
+
+    }catch(err){
+        return{
+            success : false,
+            message : "Failed to fetch and extract PDF text",
+            data :  null 
+        }
+    }
+}
+export async function generatePdfSummary({
+    pdfText,
+    fileName
+}:{
+    pdfText : string;
+    fileName : string;
+}){
+    
+    try{
         let summary;
         try{
             summary = await generateSummaryFromOpenAI(pdfText);
             console.log(summary);
         }catch(error){
+            console.error(error)
             //here we'll call gemini if summary can't be created using gemini
             try{
                 summary = await generateSummaryFromGemini(pdfText)
             }catch(err){
-                console.log(err);
+                console.log("Gemini API failed after OPENAI quote exceeded",err);
                 throw new Error("Failed to generate summary with the available ai providers")
             }
         }
@@ -60,12 +75,11 @@ export async function generatePdfSummary(uploadResponse : [{
                 data :  null 
             }
         }
-        const formattedFileName = formatFileNameAsTitle(fileName);
         return {
             success:true,
             message : "Summary generated successfully",
             data : {
-                title:formattedFileName,
+                title:fileName,
                 summary
             }
         }
