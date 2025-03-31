@@ -15,6 +15,9 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: "PDFreakout",
   description: "PDFreakout is a AI SAAS application that summarize the pdf documents",
+  icons : {
+    icon : '/icon.ico'
+  },
   metadataBase : new URL(ORIGIN_URL),
   alternates :{
     canonical : ORIGIN_URL
