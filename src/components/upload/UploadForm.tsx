@@ -32,8 +32,8 @@ export default function UploadForm(){
                 }
             )
         },
-        onUploadBegin : ()=>{
-            console.log("Upload has begun for");
+        onUploadBegin : (data)=>{
+            console.log("Upload has begun for",data);
         }
 
     })
@@ -78,7 +78,7 @@ export default function UploadForm(){
             toast.message("📄 Processing PDF...",{
                 description:"Hang tight! Our AI is reading through your document! ✨"
             })
-            const uploadFileUrl = resp[0].serverData.file.url;
+            const uploadFileUrl = resp[0].serverData.fileUrl;
             
             let storeResult : any;
             toast.message("📄 Saving PDF...",{

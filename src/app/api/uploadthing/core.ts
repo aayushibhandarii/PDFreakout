@@ -18,7 +18,11 @@ export const ourFileRouter = { //responsible for uploading the files and interac
         //get called once upload get completed
         //metadata comes from middleware that get passed on to this
         console.log("Upload completed for usser id",metadata.userId);
-        return {userId:metadata.userId,file}
+        return {
+            userId:metadata.userId,
+            fileUrl : file.ufsUrl,
+            fileName : file.name
+        }
     })
 } satisfies FileRouter
 

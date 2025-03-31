@@ -150,3 +150,5 @@
                         //hence it increases the limit of all the server actions inside app
 
                         //other o[tion to do the same thing by writing export const maxDuration = 60; in page where the server action was called that gives the error
+
+//to deploy the project => npm run build in cmd
