@@ -16,8 +16,8 @@ export const POST = async (req:NextRequest)=>{
                 const sessionId = event.data.object.id;
                 console.log(sessionId);
                 const session = event.data.object as Stripe.Checkout.Session;
-
-                await handleCheckoutSessionCompleted({session,stripe});
+                const line_items = await stripe.checkout.sessions.listLineItems(session.id);
+                await handleCheckoutSessionCompleted({session,stripe,line_items});
                 break;
             case "customer.subscription.deleted" : 
                 console.log("Customer Subscription deleted");

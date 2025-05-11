@@ -3,14 +3,17 @@ import { getDbConnection } from "./db";
 //stores all the payment information
 export async function handleCheckoutSessionCompleted({
     session,
-    stripe
+    stripe,
+    line_items
 }:{
     session : Stripe.Checkout.Session;
-    stripe:Stripe
+    stripe:Stripe,
+    line_items:any
 }){
+    
     const customerId = session.customer as string;
     const customer = await stripe.customers.retrieve(customerId);
-    const priceId = session.line_items?.data[0]?.price?.id;
+    const priceId = line_items?.data[0]?.price?.id;
     
     if("email" in customer && priceId){
         const {email,name} = customer;
