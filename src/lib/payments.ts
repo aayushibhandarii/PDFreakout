@@ -54,7 +54,6 @@ async function createOrUpdateUser({
     status: string
 }){
     try{
-        const sql = await getDbConnection();
         const user = await sql`SELECT * FROM users WHERE email = ${email}`; //checking if user exists or not
         if(user.length ===0){ //if user doesn't exist then only add it to the database
             await sql`INSERT INTO users (email,full_name,customer_id,price_id,status) VALUES (${email},${fullName},${customerId},${priceId},${status})`

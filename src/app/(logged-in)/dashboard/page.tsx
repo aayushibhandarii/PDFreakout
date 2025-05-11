@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import { hasReachedUploadLimit } from "@/lib/user";
 import { MotionDiv, MotionH1, MotionP } from "@/components/common/MotionWrapper";
 import { itemsVariants } from "@/utils/constants";
+
 export default async function DashBoardPage(){
     const user = await currentUser();
     const userId = user?.id;
