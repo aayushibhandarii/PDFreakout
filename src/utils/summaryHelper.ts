@@ -12,7 +12,7 @@ export const parseSection = (section:string,index:number):{title:string;points:s
         console.log(line);
         line = line.replace(/(?<!\*)\*(?!\*)/g, "•");
         const trimmedLine = line.trim();
-        if(trimmedLine.startsWith("•")){
+        if(trimmedLine.startsWith("**")){
             if (currentPoint) {
                 // Split the current point by emojis, preserving the emojis
                 let parts: string[] = [];
@@ -47,7 +47,11 @@ export const parseSection = (section:string,index:number):{title:string;points:s
                 points.push(formattedPoint.trim());
             }
             currentPoint = trimmedLine;
-        }else if(!trimmedLine){
+        }else if(trimmedLine.startsWith("•")){
+            const option = trimmedLine.replace("•", "").trim();
+            currentPoint += ` ${option}`;
+        }
+        else if(!trimmedLine){
             if (currentPoint) {
                 // Split the current point by emojis, preserving the emojis
                 let parts: string[] = [];
