@@ -15,9 +15,7 @@ export const POST = async (req:NextRequest)=>{
                 console.log("Checkout Session Completed");
                 const sessionId = event.data.object.id;
                 console.log(sessionId);
-                const session = await stripe.checkout.sessions.retrieve(sessionId,{
-                    expand : ["line_items"]
-                }); // retrieving more info about the session so that we can information abou the customer
+                const session = event.data.object as Stripe.Checkout.Session;
 
                 await handleCheckoutSessionCompleted({session,stripe});
                 break;
