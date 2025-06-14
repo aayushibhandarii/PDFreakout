@@ -27,7 +27,7 @@ export const pricingPlans =[
             "Markdown Export"
         ],
         paymentLink: isDev?"https://buy.stripe.com/test_dR6cPd6qe1z1gEMdQQ":"https://buy.stripe.com/test_aEU3cQfuX8Libio288",
-        priceId : isDev?"price_1R8YRbSHBgwHiesmzbJSGMPY":"price_1R86QMSEtyXMV4IySkaTM2nu",
+        priceId : isDev?"price_1R86QMSEtyXMV4IySkaTM2nu":"price_1R8YRbSHBgwHiesmzbJSGMPY",
     }
 ];
 
