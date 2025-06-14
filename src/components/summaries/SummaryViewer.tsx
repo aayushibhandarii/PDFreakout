@@ -21,7 +21,7 @@ export function SummaryViewer({summary}:{summary:string}){
     const [currentSection,setCurrentSection] = useState(0);
     const handleNext = ()=>setCurrentSection((prev)=>Math.min(prev+1,sections.length-1));
     const handlePrev = ()=>setCurrentSection((prev)=>Math.max(prev-1,0));
-    const sections = summary.split("\n## ").map((section)=>section.trim()).filter(Boolean).map(parseSection);
+    const sections = summary.split("# ").map((section)=>section.trim()).filter(Boolean).map(parseSection);
     return(
         <Card className="relative px-2 h-[500px] sm:h-[600px] lg:h-[700px] w-full xl:w-[600px] overflow-hidden bg-linear-to-br from-background via-background/95 to-rose-500/5 backdrop-blur-lg shadow-2xl rounded-3xl border border-rose-500/20">
             {<ProgressBar sections={sections} currentSection={currentSection} />}

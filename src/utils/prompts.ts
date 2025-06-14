@@ -44,3 +44,38 @@ Example format:
 
 Never deviate from this format. Every line that contains content must start with "• " followed by an emoji.
 `
+
+
+export const DEMO_PROMPT = `
+# 🎉 PDFreakout: Your Ultimate PDF Power-Up!
+🎯 Unlock effortless PDF management right from your browser – no downloads, just pure productivity!
+• 📌 Your go-to for merging, splitting, compressing, and converting PDFs with ease.
+
+# Document Details
+• 📄 Type: Product Description / Web Application Overview
+• 👥 For: Students, Professionals, and Anyone Needing Quick PDF Solutions
+
+# Key Highlights
+• 🚀 Merge PDFs: Combine multiple files into one seamless document.
+• ⭐ Split PDFs: Extract specific pages to create new, focused files.
+• 💫 Compress PDFs: Shrink file sizes for faster sharing and storage.
+
+# Why It Matters
+• 💡 PDFreakout simplifies complex PDF tasks, saving you time and effort. Its browser-based nature means you can access powerful tools anywhere, anytime, making it perfect for quick edits, professional document preparation, or academic assignments. Say goodbye to bulky software and hello to streamlined efficiency!
+
+# Main Points
+• 🎯 User-friendly web-based application for all your PDF needs.
+• 💪 Offers powerful features like merging, splitting, and converting without complex installations.
+• 🔥 Accessible directly through your browser for maximum convenience.
+
+# Pro Tips
+• ⭐ Use the "Compress PDFs" feature before emailing large documents to avoid attachment limits.
+• 💎 "Split PDFs" is perfect for extracting just the chapters or sections you need from a long report.
+• 🌟 "Convert PDFs" helps you easily transform documents into editable Word files or image formats.
+
+# Key Terms to Know
+• 📚 Web-based Application: Software accessed directly through a web browser, no installation needed.
+• 🔍 Open-Source: Software with publicly available source code, often developed collaboratively.
+
+# Bottom Line
+• 💫 PDFreakout is your hassle-free, powerful, and convenient online tool for all things PDF!`

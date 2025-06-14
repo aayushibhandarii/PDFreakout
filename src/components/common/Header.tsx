@@ -3,8 +3,9 @@ import { FileText } from 'lucide-react';
 import { NavLink } from "./NavLink";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import PlanBadge from "./PlanBadge";
+import MoveToPricing from '../home/MoveToPricing';
 export default function Header(){
-    const isLoggedIn = false;
+    
     return (
         <nav className="flex justify-between items-center py-4 lg:px-8 px-2 mx-auto w-full">
             <div className="flex lg:flex-1">
@@ -14,7 +15,7 @@ export default function Header(){
                 </NavLink>
             </div>
             <div className="flex lg:justify-center gap-4 lg:gap-12 lg:items-center">
-                <NavLink href="/#Pricing">Pricing</NavLink>
+                <MoveToPricing />
                 <SignedIn>
                     <NavLink href="/dashboard">Your Summaries</NavLink>{/*  this will only be shown if user is SignedIn */}
                 </SignedIn>

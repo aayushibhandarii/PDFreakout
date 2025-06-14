@@ -45,7 +45,7 @@ export default function HowItWorksSection(){
                         Transform any PDF into an easy-to-digest summary in three single steps
                     </MotionH3>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto relative">
+                <div className="flex flex-col items-center md:grid md:grid-cols-3 gap-8 max-w-6xl mx-auto relative">
                     {
                         steps.map((step,index)=>(
                             <MotionDiv 

@@ -2,120 +2,40 @@ export const parseSection = (section:string,index:number):{title:string;points:s
     if(index==0 && section.split("#").length >1){
         section = section.split("#")[1];
     }
-    const [title, ...content] = section.split("\n\n");
+    const [title,...content] = section.split("\n");
+    console.log("title is ",title)
     const cleanTitle = title.startsWith("#") ? title.substring(1).trim():title.trim();
     const points: string[] =[];
     let currentPoint = '';
     const emojiRegex = /[\p{Emoji_Presentation}|\p{Emoji}\u200D]+/gu;
 
     content.forEach((line)=>{
-        console.log(line);
         line = line.replace(/(?<!\*)\*(?!\*)/g, "•");
         const trimmedLine = line.trim();
-        if(trimmedLine.startsWith("**")){
+        if(trimmedLine.startsWith("•")){
             if (currentPoint) {
-                // Split the current point by emojis, preserving the emojis
-                let parts: string[] = [];
-                let lastIndex = 0;
-                let match;
-
-                // Reset emojiRegex to avoid issues with global flag
-                emojiRegex.lastIndex = 0;
-
-                while ((match = emojiRegex.exec(currentPoint)) !== null) {
-                    const emoji = match[0];
-                    const index = match.index;
-
-                    // Add the text before the emoji (if any)
-                    if (index > lastIndex) {
-                        parts.push(currentPoint.slice(lastIndex, index));
-                    }
-
-                    // Add the emoji itself
-                    parts.push(emoji);
-
-                    lastIndex = index + emoji.length;
-                }
-
-                // Add the remaining text after the last emoji (if any)
-                if (lastIndex < currentPoint.length) {
-                    parts.push(currentPoint.slice(lastIndex));
-                }
-
-                // Join the parts back together (preserving emojis) and push to points
-                const formattedPoint = parts.join('');
-                points.push(formattedPoint.trim());
+                points.push(currentPoint.trim());
             }
             currentPoint = trimmedLine;
-        }else if(trimmedLine.startsWith("•")){
-            const option = trimmedLine.replace("•", "").trim();
-            currentPoint += ` ${option}`;
-        }
-        else if(!trimmedLine){
+        }else if(!trimmedLine){
             if (currentPoint) {
-                // Split the current point by emojis, preserving the emojis
-                let parts: string[] = [];
-                let lastIndex = 0;
-                let match;
-
-                emojiRegex.lastIndex = 0;
-
-                while ((match = emojiRegex.exec(currentPoint)) !== null) {
-                    const emoji = match[0];
-                    const index = match.index;
-
-                    if (index > lastIndex) {
-                        parts.push(currentPoint.slice(lastIndex, index));
-                    }
-
-                    parts.push(emoji);
-
-                    lastIndex = index + emoji.length;
-                }
-
-                if (lastIndex < currentPoint.length) {
-                    parts.push(currentPoint.slice(lastIndex));
-                }
-
-                const formattedPoint = parts.join('');
-                points.push(formattedPoint.trim());
+                points.push(currentPoint.trim());
             }
-            currentPoint = '';
+            currentPoint = "";
         }else{
             currentPoint+=' '+trimmedLine;
         }
     })
-    if (currentPoint) {
-        // Split the current point by emojis, preserving the emojis
-        let parts: string[] = [];
-        let lastIndex = 0;
-        let match;
+    if(currentPoint){
+        points.push(currentPoint.trim());
 
-        emojiRegex.lastIndex = 0;
-
-        while ((match = emojiRegex.exec(currentPoint)) !== null) {
-            const emoji = match[0];
-            const index = match.index;
-
-            if (index > lastIndex) {
-                parts.push(currentPoint.slice(lastIndex, index));
-            }
-
-            parts.push(emoji);
-
-            lastIndex = index + emoji.length;
-        }
-
-        if (lastIndex < currentPoint.length) {
-            parts.push(currentPoint.slice(lastIndex));
-        }
-
-        const formattedPoint = parts.join('');
-        points.push(formattedPoint.trim());
     }
-    return {title:cleanTitle,points:points.filter(
-        (point) => point && !point.startsWith("#") && !point.startsWith("[Choose")
-    )};
+    return {
+        title : cleanTitle,
+        points : points.filter(
+            (point)=>point && !point.startsWith("#") && !point.startsWith("[Choose")
+        )
+    }
 }
 export function parsePoint(point:string){
     const isNumbered = /^\d+\./.test(point); //check if it is a number

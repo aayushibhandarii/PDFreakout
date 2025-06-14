@@ -9,23 +9,16 @@ const client = new GoogleGenAI(
 
 export async function generateSummaryFromGemini(pdfText:string) {
     try{
-        const chat = client.chats.create({
+        const response = await client.models.generateContent({
+            model : "gemini-2.0-flash",
+            contents:`Transform this document into an engaging, easy-to-read summary with contextually relevant emojis and proper markdown format : \n\n${pdfText}`,
             config : {
                 temperature:0.7,
-                maxOutputTokens:1500
-            },
-            model: "gemini-2.0-flash",
-            history: [ // this is the previous talk with gemini
-                {
-                    role: "user",
-                    parts: [{ text:  SUMMARY_SYSTEM_PROMPT}],
-                  },
-              
-            ],
-          });
-          const response = await chat.sendMessage({ // send this below message and send response
-            message:`Transform this document into an engaging, easy-to-read summary with contextually relevant emojis and proper markdown format : \n\n${pdfText}`
-          })
+                maxOutputTokens:1500,
+                systemInstruction : SUMMARY_SYSTEM_PROMPT 
+            }
+        })
+        
           if(!response){
             throw new Error("Empty response from Gemini API");
           }

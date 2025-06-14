@@ -5,13 +5,12 @@ import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
 import { Crown } from "lucide-react";
 
-export default async function PlanBadge(){
+export const findPricingPlan = async ()=>{
     const user = await currentUser();
     if(!user?.id){
         return null;
     }
     const email = user?.emailAddresses?.[0].emailAddress;
-    
     let priceId : string|null = null;
     if(email){
         priceId = await getPriceIdForActiveUser(email);
@@ -21,12 +20,17 @@ export default async function PlanBadge(){
     if(plan){
         planName = plan.name;
     }
+    return planName;
+}
+export default async function PlanBadge(){
+    
+    let planName = await findPricingPlan();
     return (
         <Badge 
         variant={"outline"}
-        className={cn("ml-2 bg-linear-to-r from-amber-100 to-amber-200 to-amber-300 hidden lg:flex flex-row items-center",!priceId && "from-red-100 to-red-200 border-red-300")}
+        className={cn("ml-2 bg-linear-to-r from-amber-100 to-amber-200 to-amber-300 hidden lg:flex flex-row items-center",(planName=="Buy a plan") && "from-red-100 to-red-200 border-red-300")}
         >
-            <Crown className={cn("w-3 h-3 mr-1 text-amber-600",!priceId && "text-red-600")} />
+            <Crown className={cn("w-3 h-3 mr-1 text-amber-600",(planName=="Buy a plan") && "text-red-600")} />
             {planName}
         </Badge>
     )

@@ -1,6 +1,5 @@
 import BgGradient from "@/components/common/BgGradient";
 import { MotionDiv } from "@/components/common/MotionWrapper";
-import { Badge } from "@/components/ui/badge";
 import UploadForm from "@/components/upload/UploadForm";
 import UploadHeader from "@/components/upload/UploadHeader";
 import { hasReachedUploadLimit } from "@/lib/user";

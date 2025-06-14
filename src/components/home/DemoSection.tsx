@@ -1,9 +1,8 @@
 import { Pizza } from "lucide-react"
 import { MotionDiv, MotionH3 } from "../common/MotionWrapper"
-import { itemsVariants } from "@/utils/constants"
 import { SummaryViewer } from "../summaries/SummaryViewer"
+import { DEMO_PROMPT } from "@/utils/prompts"
 
-const DEMO_SUMMARY = ``;
 export default function DemoSection(){
     return(
         <section className="realtive">
@@ -16,7 +15,7 @@ export default function DemoSection(){
                         <MotionH3 initial={{y:20,opacity:0}} whileInView={{y:0, opacity:1}} 
                         transition={{duration:0.5,delay:0.2}}
                         className="font-bold text-3xl max-w-2xl max-auto px-4 sm:px-6">
-                            Watch how PDFreakout transforms <span className="bg-linear-to-r from-rose-500 to-rose-700 bg-clip-text text-transparent"> this Next.js course PDF
+                            Watch how PDFreakout transforms <span className="bg-linear-to-r from-rose-500 to-rose-700 bg-clip-text text-transparent"> PDF
                             </span> into an easy-to-read summary!
                         </MotionH3>
                     </div>
@@ -24,7 +23,7 @@ export default function DemoSection(){
                     <div className="flex justify-center items-center px-2 sm:px-4 lg:px-6">
                         <MotionDiv initial={{opacity:0}} whileInView={{opacity:1}} transition={{duration:0.5}}
                         >
-                            <SummaryViewer summary={DEMO_SUMMARY}/>
+                            <SummaryViewer summary={DEMO_PROMPT}/>
                         </MotionDiv>
                     </div>
                 

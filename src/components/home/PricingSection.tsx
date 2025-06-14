@@ -3,6 +3,7 @@ import { containerVariants, itemsVariants, pricingPlans } from "@/utils/constant
 import { ArrowRight, CheckIcon} from "lucide-react"
 import Link from "next/link";
 import { MotionDiv, MotionSection } from "../common/MotionWrapper";
+import { findPricingPlan } from "../common/PlanBadge";
 type PriceType={
     name:string;
     price:number;
@@ -22,7 +23,7 @@ const listVariant = {
     }
 }
 
-const PricingCard = ({name,price,description,items,id,paymentLink}:PriceType)=>{
+const PricingCard = async({name,price,description,items,id,paymentLink}:PriceType)=>{
     return (
         <MotionDiv 
         variants={listVariant} 

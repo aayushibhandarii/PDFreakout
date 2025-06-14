@@ -65,6 +65,7 @@ export default function UploadForm(){
             //once schema validation is done 
             // then we'll upload the file to upload thing
             const resp = await startUpload([file])
+            console.log("resp is : ",resp);
             if(!resp){
                 toast.warning(
                     '❌ something went wrong',
